@@ -11,10 +11,10 @@ db_client_test() ->
 
   inets:start(),
 
-  ?assertMatch({ok, _Id1}, db_client:request(Client1)),
-  ?assertMatch({ok, _Id2}, db_client:request(Client2)),
-  ?assertMatch({ok, _Id3}, db_client:request(Client3)),
-  ?assertMatch({ok, _Id4}, db_client:request(Client4)),
-  ?assertMatch({ok, _Id5}, db_client:request(Client5)),
+  ?assertMatch({ok, _Id1}, db_client:put(Client1)),
+  ?assertMatch({ok, _Id2}, db_client:put(Client2)),
+  ?assertMatch({ok, _Id3}, db_client:put(Client3)),
+  ?assertMatch({ok, _Id4}, db_client:put(Client4)),
+  ?assertMatch({ok, _Id5}, db_client:put(Client5)),
 
   inets:stop().

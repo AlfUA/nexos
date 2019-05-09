@@ -5,18 +5,21 @@
 -define(CONTENT_TYPE, "application/json").
 
 %% API
--export([request/1]).
+-export([put/1]).
 
-request(Body) ->
-  BinBody = binarize(Body),
-  {ok, {_Status, _Headers, Resp}} =
-    httpc:request(put, {put_balance_url(), ?DEFAULT_HEADERS, ?CONTENT_TYPE, jsone:encode(BinBody)}, [], []),
-  case jsone:decode(list_to_binary(Resp)) of
+put(Body) ->
+  Response = request(put, put_balance_url(), binarize(Body)),
+  case jsone:decode(list_to_binary(Response)) of
     #{<<"error">> := Error, <<"reason">> := Reason} ->
       {Error, Reason};
     #{<<"ok">> := true, <<"id">> := Id} ->
       {ok, Id}
   end.
+
+request(Method, Url, Body) ->
+  {ok, {_Status, _Headers, Response}} =
+    httpc:request(Method, {Url, ?DEFAULT_HEADERS, ?CONTENT_TYPE, jsone:encode(Body)}, [], []),
+  Response.
 
 put_balance_url() ->
   balance_url() ++ generate_key().
