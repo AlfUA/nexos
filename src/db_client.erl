@@ -9,7 +9,7 @@
 
 put(Body) ->
   Response = request(put, put_balance_url(), binarize(Body)),
-  case jsone:decode(list_to_binary(Response)) of
+  case jsone:decode(Response) of
     #{<<"error">> := Error, <<"reason">> := Reason} ->
       {Error, Reason};
     #{<<"ok">> := true, <<"id">> := Id} ->
@@ -19,7 +19,7 @@ put(Body) ->
 request(Method, Url, Body) ->
   {ok, {_Status, _Headers, Response}} =
     httpc:request(Method, {Url, ?DEFAULT_HEADERS, ?CONTENT_TYPE, jsone:encode(Body)}, [], []),
-  Response.
+  list_to_binary(Response).
 
 put_balance_url() ->
   balance_url() ++ generate_key().
