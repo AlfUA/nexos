@@ -1,6 +1,5 @@
 nexos
 =====
-Nexos skills challenge. 
 
 Stateless library to parse payment data and to put (insert) data into the CouchDB.
 
